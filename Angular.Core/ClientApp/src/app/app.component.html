@@ -1,0 +1,21 @@
+<div class="container-fluid">
+  <div class="row" style="border:3px dashed red">
+    <div class="col-xs">
+      <graph [nodes]="nodes" [links]="links"></graph>
+    </div>
+    <div class="col-xs">
+      <pre style="height:600px;width:800px;border:2px solid black"> {{graph | json}}</pre>
+
+      <!--<div *ngFor="let n of nodes">{{n.x}} {{n.y}}</div>-->
+    </div>
+  </div>
+</div>
+<!--<div class="row" style="border:3px dashed red">
+  <div class="col-xs">
+    <graph [nodes]="nodes" [links]="links"></graph>
+  </div>
+  <div class="col-xs">
+    <div *ngFor="let n of nodes">{{n.x}} {{n.y}}</div>
+  </div>
+</div>-->
+<button (click)="save()">Save</button>
