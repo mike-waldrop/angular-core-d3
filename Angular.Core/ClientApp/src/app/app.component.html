@@ -1,21 +1,24 @@
+<button (click)="save()">Save</button>
+<button (click)="snapShot()">Snap Shot</button>
 <div class="container-fluid">
-  <div class="row" style="border:3px dashed red">
+  <div class="row" style="border:1px dashed red">
     <div class="col-xs">
-      <graph [nodes]="nodes" [links]="links"></graph>
+      <graph [nodes]="directedGraph.nodes" [links]="directedGraph.links"></graph>
     </div>
     <div class="col-xs">
-      <pre style="height:600px;width:800px;border:2px solid black"> {{graph | json}}</pre>
+      <pre style="height:600px;width:800px;border:2px solid black">
 
-      <!--<div *ngFor="let n of nodes">{{n.x}} {{n.y}}</div>-->
+      <div *ngFor="let o of logger">{{o}}</div>
+</pre>
     </div>
   </div>
 </div>
-<!--<div class="row" style="border:3px dashed red">
+<div class="row" style="border:1px dashed red">
   <div class="col-xs">
-    <graph [nodes]="nodes" [links]="links"></graph>
+    <graph [nodes]="directedGraph2.nodes" [links]="directedGraph2.links"></graph>
   </div>
   <div class="col-xs">
-    <div *ngFor="let n of nodes">{{n.x}} {{n.y}}</div>
+    <!--<div *ngFor="let n of nodes">{{n.x}} {{n.y}}</div>-->
   </div>
-</div>-->
-<button (click)="save()">Save</button>
+</div>
+

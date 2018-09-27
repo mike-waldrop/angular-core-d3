@@ -4,7 +4,9 @@ import { Node, Link } from './d3';
 import { GraphFormat, Vertex, Edge } from './d3/models/graph-format';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-
+import { DirectedGraph } from './d3/models/directed-graph';
+import * as _ from 'lodash';
+import { TspSolver } from './d3/models/tsp-solver';
 
 @Component({
   selector: 'app-root',
@@ -12,82 +14,44 @@ import { HttpClient } from '@angular/common/http';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  nodes: Node[] = [];
-  links: Link[] = [];
-  graph: GraphFormat;
+  title = 'ClientApp';
+  directedGraph: DirectedGraph = new DirectedGraph();
+  directedGraph2: DirectedGraph = new DirectedGraph();
+ // nodes: Node[] = [];
+ // links: Link[] = [];
+  //graph: GraphFormat;
 
   constructor(private http: HttpClient) {
-    
-
-
-    //const N = APP_CONFIG.N,
-    //  getIndex = number => number - 1;
-
-    ///** constructing the nodes array */
-    //for (let i = 1; i <= N; i++) {
-    //  var node = new Node(i);
-    //  node.x = 200 + 100 * i;
-    //  node.y = 200;
-    //  this.nodes.push(node);
-    //}
-
-    //for (let i = 0; i < N; i++) {
-    //  for (let m = 0; m < N; m++) {
-    //    var n1 = this.nodes[i];
-    //    var n2 = this.nodes[m];
-    //    if (n1.id !== n2.id)
-    //      this.links.push(new Link(n1, n2));
-    //  }
-    //}
   }
-
-  title = 'ClientApp';
 
   save() {
-    this.graph.nodes = [];
-    this.graph.edges = [];
-    for (let n of this.nodes) {
-      let v = new Vertex();
-      v.id = n.id;
-      v.x = n.x;
-      v.y = n.y;
-      this.graph.nodes.push(v)
-    }
-    for (let l of this.links) {
-      let e = new Edge();
-      e.source = l.source.id;
-      e.target = l.target.id;
-      this.graph.edges.push(e);
-    }
+    this.directedGraph.save();
   }
 
-  public currentCount = 0;
+  logger: string[] = [];
+
+  snapShot() {
+    this.directedGraph2.nodes = _.cloneDeep(this.directedGraph.nodes);
+    let tsp = new TspSolver(this.directedGraph);
+    tsp.log.subscribe(o => {
+      this.logger.push(o);
+    });
+    tsp.bestFoundEmitter.subscribe(b => {
+      this.directedGraph2.links = b;
+    });
+    tsp.execute();
+  }
 
   ngOnInit() {
-    let that = this;
-    this.getGraph().subscribe(g => {
-      that.graph = g;
-      for (let n of g.nodes) {
-        var node = new Node(n.id);
-        node.x = n.x;
-        node.y = n.y;
-        that.nodes.push(node);
-      }
-
-      for (let e of g.edges) {
-        var n1 = that.nodes.find(n => n.id == e.source);
-        var n2 = that.nodes.find(n => n.id == e.target);
-        that.links.push(new Link(n1, n2));
-      }
-    });
+    this.getGraph();
   }
 
-  public incrementCounter() {
-    this.currentCount++;
-  }
 
   getGraph() {
-    return this.http.get<GraphFormat>('assets/graph.json');
+    let that = this;
+    this.http.get<GraphFormat>('assets/graph.json').subscribe(g => {
+      this.directedGraph.load(g);
+    });
   }
 }
 

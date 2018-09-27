@@ -15,7 +15,7 @@ import { Link } from '../../../d3';
    <svg:text [attr.font-size]="25" [attr.font-color]="red"
         [attr.x]="getMidPoint().x"
         [attr.y]="getMidPoint().y">
-           {{getDistance()}}
+           {{link.distance}}
     </svg:text>
 </svg:g>
   `,
@@ -23,29 +23,12 @@ import { Link } from '../../../d3';
 })
 export class LinkVisualComponent {
   @Input('linkVisual') link: Link;
-  distance: number;
-
-  getDistance() {
-    this.distance = Math.round(this.calcDistance(this.link.source, this.link.target));
-    return this.distance;
-  }
-
+    
   getMidPoint() {
     let x = (this.link.source.x + this.link.target.x) / 2;
     let y = (this.link.source.y + this.link.target.y) / 2;
     return { x: x, y: y };
   }
 
-  calcDistance(point1, point2) {
-    var xs = 0;
-    var ys = 0;
-
-    xs = point2.x - point1.x;
-    xs = xs * xs;
-
-    ys = point2.y - point1.y;
-    ys = ys * ys;
-
-    return Math.sqrt(xs + ys);
-  }
+  
 }

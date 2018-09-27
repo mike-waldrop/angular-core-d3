@@ -24,11 +24,15 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="ClientApp\src\app\d3\models\directed-graph.ts" />
     <None Remove="ClientApp\src\app\d3\models\graph-format.ts" />
+    <None Remove="ClientApp\src\app\d3\models\tsp-solver.ts" />
   </ItemGroup>
 
   <ItemGroup>
+    <TypeScriptCompile Include="ClientApp\src\app\d3\models\directed-graph.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\d3\models\graph-format.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\d3\models\tsp-solver.ts" />
   </ItemGroup>
 
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">
