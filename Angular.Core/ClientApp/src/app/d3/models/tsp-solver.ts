@@ -2,6 +2,7 @@ import { DirectedGraph } from "./directed-graph";
 import { EventEmitter } from '@angular/core';
 import { Node } from './node';
 import { Link } from ".";
+import * as _ from 'lodash';
 
 function delay() {
   return new Promise(resolve => setTimeout(resolve, 20));
@@ -14,15 +15,18 @@ export class TspSolver {
   bestSum = 0;
   bestDesc: string;
   dg: DirectedGraph;
+  tmpNodes: Node[]=[];
   public log: EventEmitter<any> = new EventEmitter();
   public bestFoundEmitter: EventEmitter<Link[]> = new EventEmitter();
 
+
   constructor(dg: DirectedGraph) {
     this.dg = dg;
+    this.tmpNodes = _.cloneDeep(this.dg.nodes).splice(1);
   }
 
   execute() {
-    for (var i = 0; i < this.dg.nodes.length; i++) {
+    for (var i = 0; i < this.tmpNodes.length; i++) {
       this.vals.push(i);
     }
     this.draw();
@@ -72,10 +76,15 @@ export class TspSolver {
     var tmp: Node[] = [];
     var foundEdges: Link[] = [];
     for (var i = 0; i < this.vals.length; i++) {
-      let n = this.dg.nodes[this.vals[i]];
+      let n = this.tmpNodes[this.vals[i]];
       tmp.push(n);
       s += n.id;
     }
+    
+    let firstNode = this.dg.nodes[0];
+    s = firstNode.id + s + firstNode.id;
+    tmp.splice(0, 0, firstNode);
+    tmp.push(firstNode);
 
     let sum: number = 0;
     

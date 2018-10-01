@@ -24,20 +24,18 @@ export class AppComponent {
   constructor(private http: HttpClient) {
   }
 
-  save() {
-    this.directedGraph.save();
-  }
+  
 
   logger: string[] = [];
 
   snapShot() {
-    this.directedGraph2.nodes = _.cloneDeep(this.directedGraph.nodes);
+    this.directedGraph2.setNodes(_.cloneDeep(this.directedGraph.nodes));
     let tsp = new TspSolver(this.directedGraph);
     tsp.log.subscribe(o => {
-      this.logger.push(o);
+      this.logger.splice(0, 0, o); 
     });
     tsp.bestFoundEmitter.subscribe(b => {
-      this.directedGraph2.links = b;
+      this.directedGraph2.setLinks(_.cloneDeep(b));
     });
     tsp.execute();
   }

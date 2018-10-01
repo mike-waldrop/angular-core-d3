@@ -18,7 +18,7 @@ export class GraphComponent implements OnInit, AfterViewInit {
   @Input('nodes') nodes;
   @Input('links') links;
   
-  private _options: { width, height } = { width: 800, height: 600 };
+  private _options: { width, height } = { width: 500, height: 500 };
 
   @HostListener('window:resize', ['$event'])
   onResize(event) {

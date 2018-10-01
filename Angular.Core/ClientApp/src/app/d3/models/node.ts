@@ -1,5 +1,6 @@
 import APP_CONFIG from '../../app.config';
 import * as d3 from 'd3';
+import { Link } from '.';
 
 export class Node implements d3.SimulationNodeDatum {
   // optional - defining optional implementation properties - required for relevant typing assistance
@@ -13,6 +14,8 @@ export class Node implements d3.SimulationNodeDatum {
 
   id: string;
   linkCount: number = 0;
+  weight: number = 0;
+  links: Link[] = [];
 
   constructor(id) {
     this.id = id;

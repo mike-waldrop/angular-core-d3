@@ -1,0 +1,15 @@
+<div class="card text-center h-100">
+  <div class="card-header">
+    <nav class="navbar navbar-light" style="background-color: #e3f2fd;">
+      <form class="form-inline">
+        <button (click)="save()" class="btn" type="button">Save</button>
+      </form>
+    </nav>
+  </div>
+  <div class="card-body  text-center">
+    <graph [nodes]="directedGraph.nodes" [links]="directedGraph.links"></graph>
+  </div>
+  <div class="card-footer text-muted">
+    2 days ago
+  </div>
+</div>

@@ -18,11 +18,35 @@ export class DirectedGraph {
     for (let e of this.graph.edges) {
       var n1 = this.nodes.find(n => n.id == e.source);
       var n2 = this.nodes.find(n => n.id == e.target);
-      this.links.push(new Link(n1, n2));
+      if (n1 && n2) {
+        let l = new Link(n1, n2)
+        this.links.push(l);
+        n1.links.push(l);
+      }
+        
+    }
+  }
+
+  setNodes(nodes: Node[]) {
+    this.nodes = nodes;
+  }
+
+  setLinks(links: Link[]) {
+    this.links = [];
+    for (let e of links) {
+      var n1 = this.nodes.find(n => n.id == e.source.id);
+      var n2 = this.nodes.find(n => n.id == e.target.id);
+      if (n1 && n2) {
+        let l = new Link(n1, n2)
+        this.links.push(l);
+        n1.links.push(l);
+      }
+
     }
   }
 
   save() {
+    this.graph = new GraphFormat();
     this.graph.nodes = [];
     this.graph.edges = [];
     for (let n of this.nodes) {

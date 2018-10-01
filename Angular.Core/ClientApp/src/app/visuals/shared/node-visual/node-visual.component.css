@@ -15,3 +15,11 @@
   font-weight: 300;
   fill: white;
 }
+
+.node-weight {
+  font-family: 'Lato';
+  text-anchor: middle;
+  alignment-baseline: central;
+  font-weight: 300;
+  fill: red;
+}
